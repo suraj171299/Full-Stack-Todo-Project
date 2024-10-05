@@ -1,14 +1,21 @@
 const express = require("express");
+require('dotenv').config();
 const cors = require("cors");
 const app = express();
 const { sequelize } = require('./models')
-const dotenv = require("dotenv");
-
-dotenv.config();
+const authRoute = require('./routes/auth.route')
+const cookie = require('cookie-parser');
 const PORT = process.env.PORT || 8000;
 
+//Default required Middlewares
 app.use(express.json());
 app.use(cors());
+app.use(cookie());
+
+//Routes
+app.use('/api/v1/auth',authRoute)
+
+
 
 async function connectDb(){
     try {
